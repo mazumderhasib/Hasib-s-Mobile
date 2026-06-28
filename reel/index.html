@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Happy Canada Day — Shabahat Realtor</title>
+<style>
+  :root{
+    --navy:#0a1626;
+    --navy2:#11243d;
+    --red:#D80621;       /* canada red */
+    --red2:#ff1f38;
+    --white:#ffffff;
+    --ink:#0a1626;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#000;overflow:hidden}
+  #stage{
+    position:relative;
+    width:1080px;height:1920px;
+    overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 22%, #16304f 0%, #0c1c30 45%, #060f1c 100%);
+    font-family:'Liberation Sans','Arial','DejaVu Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* subtle texture + vignette */
+  #grain{position:absolute;inset:0;opacity:.05;mix-blend-mode:overlay;pointer-events:none}
+  #vignette{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%)}
+
+  .scene{position:absolute;inset:0;will-change:opacity,transform}
+
+  .floatLeaf{position:absolute;will-change:transform,opacity}
+  .floatLeaf svg{display:block}
+
+  /* ---------- SCENE 1 : TITLE ---------- */
+  #s1{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  #s1 .inner{position:relative;width:100%;display:flex;flex-direction:column;align-items:center}
+  .happy{
+    color:#fff;font-weight:700;letter-spacing:.46em;
+    font-size:58px;text-indent:.46em;margin-bottom:22px;
+    text-transform:uppercase;will-change:transform,opacity;
+  }
+  .canadaRow{position:relative;display:flex;align-items:center;justify-content:center}
+  .canada{
+    font-size:208px;font-weight:900;line-height:.9;color:var(--red);
+    letter-spacing:.005em;text-transform:uppercase;
+    -webkit-text-stroke:2px var(--red);
+    will-change:transform,opacity;
+  }
+  /* the canadian flag panel that sits in the middle of the word */
+  .flagPanel{
+    position:absolute;left:50%;top:50%;
+    width:250px;height:236px;border-radius:22px;background:#fff;
+    transform:translate(-50%,-50%);
+    display:flex;overflow:hidden;
+    box-shadow:0 22px 50px rgba(0,0,0,.45);
+    will-change:transform,opacity;
+  }
+  .flagPanel .bar{width:25%;background:var(--red);height:100%}
+  .flagPanel .mid{flex:1;display:flex;align-items:center;justify-content:center}
+  .flagPanel .mid svg{width:78%;height:78%}
+  .canadaDay{
+    margin-top:40px;color:#fff;font-weight:700;
+    font-size:50px;letter-spacing:.52em;text-indent:.52em;text-transform:uppercase;
+    will-change:transform,opacity;
+  }
+  .rule{height:4px;width:0;background:var(--red);margin-top:30px;border-radius:4px;will-change:width,opacity}
+
+  /* ---------- SCENE 2 : DATE ---------- */
+  #s2{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .leafHero{position:relative;width:760px;height:760px;will-change:transform,opacity}
+  .leafHero svg{position:absolute;inset:0;width:100%;height:100%;
+    filter:drop-shadow(0 24px 50px rgba(216,6,33,.35))}
+  .spat{position:absolute;border-radius:50%;background:var(--red2);will-change:transform,opacity}
+  .dateBadge{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:330px;height:330px;border-radius:50%;
+    background:rgba(255,255,255,.0);will-change:transform,opacity;text-align:center;
+  }
+  .dOne{color:#fff;font-weight:900;font-size:188px;line-height:.8;text-shadow:0 6px 22px rgba(0,0,0,.35)}
+  .dJuly{color:#fff;font-weight:800;font-size:74px;letter-spacing:.22em;text-indent:.22em;
+    text-transform:uppercase;border-top:6px solid #fff;padding-top:10px;margin-top:4px}
+  .s2sub{margin-top:30px;color:#fff;font-weight:700;font-size:58px;letter-spacing:.06em;
+    text-transform:uppercase;will-change:transform,opacity}
+  .s2sub b{color:var(--red2)}
+
+  /* ---------- SCENE 3 : BRAND ---------- */
+  #s3{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .brandLeaf{width:150px;height:150px;will-change:transform,opacity}
+  .brandLeaf svg{width:100%;height:100%;filter:drop-shadow(0 10px 26px rgba(216,6,33,.4))}
+  .brandName{margin-top:26px;color:#fff;font-weight:900;font-size:118px;line-height:1.0;
+    letter-spacing:.02em;text-transform:uppercase;will-change:transform,opacity}
+  .brandName .r{color:var(--red2);display:block;font-size:74px;letter-spacing:.42em;
+    text-indent:.42em;margin-top:8px}
+  .tagWrap{margin-top:30px;display:flex;align-items:center;gap:24px;will-change:transform,opacity}
+  .tagWrap .ln{height:3px;width:90px;background:var(--red2);border-radius:3px}
+  .tag{color:#cfe0f2;font-weight:600;font-size:42px;letter-spacing:.12em;text-transform:uppercase}
+  .wish{margin-top:64px;color:#fff;font-weight:400;font-size:50px;line-height:1.35;
+    max-width:820px;will-change:transform,opacity}
+  .wish b{font-weight:800}
+  .botBar{position:absolute;left:0;right:0;bottom:0;height:18px;
+    background:linear-gradient(90deg,var(--red) 0,var(--red2) 100%);transform-origin:left center;
+    will-change:transform}
+  .topBar{position:absolute;left:0;right:0;top:0;height:18px;
+    background:linear-gradient(90deg,var(--red2) 0,var(--red) 100%);transform-origin:right center;
+    will-change:transform}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="grain" width="1080" height="1920">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+
+  <div id="leaves"></div>
+
+  <!-- SCENE 1 -->
+  <div class="scene" id="s1">
+    <div class="inner">
+      <div class="happy">Happy</div>
+      <div class="canadaRow">
+        <div class="canada">CANADA</div>
+        <div class="flagPanel">
+          <div class="bar"></div>
+          <div class="mid"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="canadaDay">Canada&nbsp;Day</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+
+  <!-- SCENE 2 -->
+  <div class="scene" id="s2">
+    <div class="leafHero" id="leafHero">
+      <div class="dateBadge" id="dateBadge">
+        <div class="dOne">1</div>
+        <div class="dJuly">July</div>
+      </div>
+    </div>
+    <div class="s2sub">happy <b>canada</b> day</div>
+  </div>
+
+  <!-- SCENE 3 -->
+  <div class="scene" id="s3">
+    <div class="brandLeaf" id="brandLeaf"></div>
+    <div class="brandName">Shabahat<span class="r">Realtor</span></div>
+    <div class="tagWrap"><span class="ln"></span><span class="tag">Your&nbsp;Trusted&nbsp;Real&nbsp;Estate&nbsp;Partner</span><span class="ln"></span></div>
+    <div class="wish">Wishing you &amp; your family<br>a <b>Happy Canada Day</b> 🍁</div>
+  </div>
+
+  <div class="topBar"></div>
+  <div class="botBar"></div>
+  <div id="vignette"></div>
+</div>
+
+<script>
+/* ---------- Maple leaf path (symmetric, generated from half-outline) ---------- */
+function buildLeaf(){
+  // right-half outline points in a 100x100 box, y-down, mirrored about x=50.
+  // from top tip -> clockwise down right side -> bottom stem center.
+  const R = [
+    [50, 9],    // top tip (center)
+    [55, 25],   // shallow serration notch (keeps top broad)
+    [63, 23],   // small upper serration point
+    [58, 36],   // notch
+    [85, 46],   // widest side point
+    [60, 53],   // sinus toward center
+    [80, 67],   // lower side point (broad)
+    [59, 66],   // sinus
+    [65, 87],   // lower lobe point
+    [55, 80],   // small notch by stem
+    [55, 95],   // stem (right)
+    [50, 95]    // stem center bottom
+  ];
+  let d = 'M' + R[0][0] + ' ' + R[0][1];
+  for(let i=1;i<R.length;i++) d += ' L'+R[i][0]+' '+R[i][1];
+  // mirror back up the left side
+  for(let i=R.length-2;i>=0;i--) d += ' L'+(100-R[i][0])+' '+R[i][1];
+  d += ' Z';
+  return d;
+}
+const LEAF_D = buildLeaf();
+function leafSVG(fill){
+  return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="'+LEAF_D+'" fill="'+fill+'"/></svg>';
+}
+
+/* place leaves in the flag panel, scene2 hero, scene3 brand */
+document.querySelector('.flagPanel .mid').innerHTML = leafSVG('#D80621');
+document.getElementById('leafHero').insertAdjacentHTML('afterbegin', leafSVG('#D80621'));
+document.getElementById('brandLeaf').innerHTML = leafSVG('#ff1f38');
+
+/* floating background leaves */
+const leavesWrap = document.getElementById('leaves');
+const FLOATS = [
+  {x:120, y:260,  s:120, rot:18,  sp:0.10, op:.06},
+  {x:880, y:430,  s:90,  rot:-22, sp:0.14, op:.05},
+  {x:200, y:1500, s:150, rot:8,   sp:0.08, op:.05},
+  {x:900, y:1620, s:110, rot:30,  sp:0.12, op:.06},
+  {x:540, y:1780, s:80,  rot:-10, sp:0.16, op:.05},
+  {x:60,  y:980,  s:70,  rot:42,  sp:0.18, op:.05}
+];
+FLOATS.forEach(f=>{
+  const el=document.createElement('div');
+  el.className='floatLeaf';
+  el.style.left=f.x+'px'; el.style.top=f.y+'px';
+  el.style.width=f.s+'px'; el.style.height=f.s+'px';
+  el.style.opacity=f.op;
+  el.innerHTML=leafSVG('#ffffff');
+  el.dataset.rot=f.rot; el.dataset.sp=f.sp; el.dataset.y=f.y;
+  leavesWrap.appendChild(el);
+});
+
+/* scene2 paint splatter dots */
+const hero=document.getElementById('leafHero');
+const SPLAT=[];
+(function(){
+  const rnd=(seed=>()=> (seed=(seed*9301+49297)%233280)/233280)(7);
+  for(let i=0;i<26;i++){
+    const ang=rnd()*Math.PI*2, rad=300+rnd()*150;
+    const sz=8+rnd()*34;
+    const cx=380+Math.cos(ang)*rad, cy=380+Math.sin(ang)*rad*0.9;
+    const el=document.createElement('div');
+    el.className='spat';
+    el.style.width=sz+'px';el.style.height=sz+'px';
+    el.style.left=(cx-sz/2)+'px';el.style.top=(cy-sz/2)+'px';
+    el.style.opacity=0;
+    hero.appendChild(el);
+    SPLAT.push({el, delay:rnd()*0.5, sz});
+  }
+})();
+
+/* ---------- easing + timeline helpers ---------- */
+const E={
+  linear:t=>t,
+  outCubic:t=>1-Math.pow(1-t,3),
+  inOutCubic:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,
+  outExpo:t=>t===1?1:1-Math.pow(2,-10*t),
+  outBack:t=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)},
+  outElastic:t=>{const c4=(2*Math.PI)/3;return t===0?0:t===1?1:Math.pow(2,-10*t)*Math.sin((t*10-0.75)*c4)+1}
+};
+function seg(t,a,b,ease){ // progress of window [a,b]
+  if(t<=a) return 0; if(t>=b) return 1;
+  const p=(t-a)/(b-a); return (ease||E.outCubic)(p);
+}
+function mix(p,from,to){return from+(to-from)*p;}
+function setScene(el,vis,t,fin,fout){ // fade in over [vis,vis+fin], out over [out-... ]
+  // handled inline per scene instead
+}
+
+const DUR=15.0;
+window.__DURATION=DUR;
+
+const s1=document.getElementById('s1'), s2=document.getElementById('s2'), s3=document.getElementById('s3');
+const happy=document.querySelector('.happy');
+const canada=document.querySelector('.canada');
+const flagPanel=document.querySelector('.flagPanel');
+const canadaDay=document.querySelector('.canadaDay');
+const rule=document.querySelector('.rule');
+const leafHero=document.getElementById('leafHero');
+const dateBadge=document.getElementById('dateBadge');
+const s2sub=document.querySelector('.s2sub');
+const brandLeaf=document.getElementById('brandLeaf');
+const brandName=document.querySelector('.brandName');
+const tagWrap=document.querySelector('.tagWrap');
+const wish=document.querySelector('.wish');
+const topBar=document.querySelector('.topBar');
+const botBar=document.querySelector('.botBar');
+
+function sceneOpacity(t, inA,inB, outA,outB){
+  let o=seg(t,inA,inB,E.outCubic);
+  if(t>=outA) o=1-seg(t,outA,outB,E.inOutCubic);
+  return Math.max(0,Math.min(1,o));
+}
+
+function seek(t){
+  // ---- background drift (continuous) ----
+  document.querySelectorAll('.floatLeaf').forEach(el=>{
+    const sp=parseFloat(el.dataset.sp), rot=parseFloat(el.dataset.rot);
+    const dy=Math.sin(t*sp*2+ (parseFloat(el.dataset.y)||0))*18;
+    el.style.transform='translateY('+dy+'px) rotate('+(rot+t*sp*30)+'deg)';
+  });
+
+  // ================= SCENE 1 (0 - 5.4) =================
+  const o1=sceneOpacity(t, 0,0.01, 4.9,5.5);
+  s1.style.opacity=o1;
+  s1.style.display = o1<=0 && t>1 ? 'none':'flex';
+  {
+    const ph=seg(t,0.3,1.1,E.outCubic);
+    happy.style.opacity=ph;
+    happy.style.transform='translateY('+mix(ph,-26,0)+'px)';
+
+    const pc=seg(t,0.5,1.5,E.outBack);
+    canada.style.opacity=seg(t,0.5,1.1,E.outCubic);
+    canada.style.transform='scale('+mix(pc,0.82,1)+')';
+
+    const pf=seg(t,1.1,1.9,E.outBack);
+    flagPanel.style.opacity=seg(t,1.1,1.5,E.outCubic);
+    flagPanel.style.transform='translate(-50%,-50%) scale('+mix(pf,0.4,1)+') rotate('+mix(pf,-12,0)+'deg)';
+
+    const pd=seg(t,1.7,2.5,E.outCubic);
+    canadaDay.style.opacity=pd;
+    canadaDay.style.transform='translateY('+mix(pd,22,0)+'px)';
+
+    const pr=seg(t,2.1,2.9,E.outExpo);
+    rule.style.width=mix(pr,0,260)+'px';
+    rule.style.opacity=pr;
+
+    // gentle breathing on the lockup after settle
+    const br=1+Math.sin(Math.max(0,t-2.5)*1.1)*0.006;
+    document.querySelector('#s1 .inner').style.transform='scale('+br+')';
+  }
+
+  // ================= SCENE 2 (5.2 - 10.0) =================
+  const o2=sceneOpacity(t, 5.2,5.9, 9.4,10.0);
+  s2.style.opacity=o2;
+  s2.style.display=o2<=0?'none':'flex';
+  {
+    const pl=seg(t,5.3,6.5,E.outBack);
+    leafHero.style.transform='scale('+mix(pl,0.5,1)+') rotate('+mix(pl,-18,0)+'deg)';
+    leafHero.style.opacity=seg(t,5.3,5.9,E.outCubic);
+
+    SPLAT.forEach(s=>{
+      const p=seg(t,5.9+s.delay,6.6+s.delay,E.outBack);
+      s.el.style.opacity=p*0.9;
+      s.el.style.transform='scale('+mix(p,0,1)+')';
+    });
+
+    const pb=seg(t,6.4,7.4,E.outElastic);
+    dateBadge.style.opacity=seg(t,6.4,6.9,E.outCubic);
+    dateBadge.style.transform='translate(-50%,-50%) scale('+mix(Math.min(1,pb),0.3,1)+')';
+
+    const ps=seg(t,7.2,8.0,E.outCubic);
+    s2sub.style.opacity=ps;
+    s2sub.style.transform='translateY('+mix(ps,26,0)+'px)';
+
+    // slow rotation drift on hero
+    const drift=Math.sin(Math.max(0,t-6.6)*0.8)*1.5;
+    if(t>6.6) leafHero.style.transform='scale(1) rotate('+drift+'deg)';
+  }
+
+  // ================= SCENE 3 (9.8 - 15.0) =================
+  const o3=sceneOpacity(t, 9.8,10.5, 99,100);
+  s3.style.opacity=o3;
+  s3.style.display=o3<=0?'none':'flex';
+  {
+    const pl=seg(t,10.0,11.0,E.outBack);
+    brandLeaf.style.opacity=seg(t,10.0,10.6,E.outCubic);
+    brandLeaf.style.transform='translateY('+mix(pl,-40,0)+'px) rotate('+mix(pl,-30,0)+'deg) scale('+mix(pl,0.6,1)+')';
+
+    const pn=seg(t,10.5,11.5,E.outCubic);
+    brandName.style.opacity=pn;
+    brandName.style.transform='translateY('+mix(pn,28,0)+'px)';
+
+    const pt=seg(t,11.2,12.1,E.outCubic);
+    tagWrap.style.opacity=pt;
+    tagWrap.style.transform='translateY('+mix(pt,18,0)+'px)';
+
+    const pw=seg(t,12.1,13.2,E.outCubic);
+    wish.style.opacity=pw;
+    wish.style.transform='translateY('+mix(pw,22,0)+'px)';
+
+    // gentle leaf bob
+    if(t>11) brandLeaf.style.transform='translateY('+(Math.sin((t-11)*1.4)*7)+'px) rotate(0deg) scale(1)';
+  }
+
+  // accent bars (present throughout, animate in early, subtle pulse)
+  const tb=seg(t,0.2,1.2,E.outExpo);
+  topBar.style.transform='scaleX('+tb+')';
+  const bb=seg(t,0.4,1.4,E.outExpo);
+  botBar.style.transform='scaleX('+bb+')';
+}
+
+window.__seek=seek;
+seek(0);
+</script>
+</body>
+</html>
